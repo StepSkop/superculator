@@ -65,6 +65,10 @@
     })
 
 </script>
+<svelte:head>
+    <title>Superculator</title>
+    
+</svelte:head>
 <main class="w-screen h-screen flex justify-center items-center">
     <div class="lines border-solid border-[1px] border-gray-900 scale-125 p-4">
         {#if play}
