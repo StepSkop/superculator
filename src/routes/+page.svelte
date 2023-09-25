@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from "$lib/components/Button.svelte";
 	import { evaluate } from "mathjs"
-    import brutal from "$lib/sound/Cyberpunk 2077 music.mp3";
+    import brutal from "$lib/sound/Cybercut.mp3";
     import cyber from "$lib/image/cyber.png"
 
     let date = new Date()
@@ -14,10 +14,15 @@
     let displayArr : any[] = []
     let totalArr : any[] = []
     let display : any
+    let justEv = false
     display = displayArr.join('')
     
     const handleVal = ((arg: string)=>{
         displayArr.push(arg)
+        if (justEv) {
+            totalArr = []
+            justEv = false
+        }
         if (totalArr.length != 0) {
             display = `${totalArr.join(' ')} ${displayArr.join('')}`
         } else {
@@ -27,6 +32,7 @@
         return null
     })
     const handleOp = ((arg: string) =>{
+        justEv = false
         if (displayArr.length > 0) {
             totalArr.push(parseFloat(displayArr.join('')))
         }
@@ -43,11 +49,16 @@
             display = evaluate(totalArr.join(''))
 
             if (display == 2077) {
-            display = "We have a city to burn"
-            play = true
+                display = "We have a city to burn"
+                play = true
             }
             displayArr = []
-            totalArr = [display]
+            if (display === "We have a city to burn") {
+                totalArr = ["2077"]
+            } else {
+                totalArr = [display]
+            }
+            justEv = true
         } catch (error) {
             display = "L"
             displayArr = []
@@ -66,11 +77,15 @@
 
 </script>
 <svelte:head>
-    <title>Superculator</title>
+    {#if play}
+        <title>Cyberculator</title>
+    {:else}
+        <title>Superculator</title>
+    {/if}
     
 </svelte:head>
 <main class="w-screen h-screen flex justify-center items-center">
-    <div class="lines border-solid border-[1px] border-gray-900 scale-125 p-4">
+    <div class="lines border-solid border-[1px] border-gray-900 scale-90 sm:scale-100 md:scale-125 p-4">
         {#if play}
             <audio id="player" autoplay>
                 <source src={brutal} type="audio/mpeg">
