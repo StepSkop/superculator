@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte";
-
     const dispatch = createEventDispatcher()
     export let content = "X"
     function disp(event: any){
